@@ -1,0 +1,73 @@
+{%extends "base.html"%}
+{%block title%}
+欢迎注册马克笔记
+{%endblock title%}
+
+{%block metas%}
+{{super()}}
+<meta name="description" content="马克笔记是一个整理知识、分享知识，帮助你搜索知识的网站">
+{%endblock metas%}
+
+{%block styles%}
+
+<link rel="stylesheet" href="{{url_for("static", filename="dist/css/sign.min.css")}}">
+
+{{super()}}
+
+{%endblock styles%}
+{%block content%}
+<div class="main-dropdown">
+    <div class="container">
+        <div class="inner-content">
+        <div class="signup-form">
+            <form id="register-form" action="{{url_for("home.register")}}" method="post">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                <h1 class="form-title">加入马克笔记</h1>
+            </div>
+            <div class="form-group">
+                <input class="block-input block-input-lg {%if form.username.errors%}input-error{%endif%}" type="text" name="username" autocomplete="off" placeholder="全名" {%if form.username.data%}value="{{form.username.data}}"{%endif%}>
+                {%if form.username.errors%}
+                {%for error in form.username.errors%}
+                <div class="input-error-info">{{error.decode("utf-8")}}</div>
+                {%endfor%}
+                {%endif%}
+            </div>
+            <div class="form-group">
+                <input class="block-input block-input-lg {%if form.email.errors%}input-error{%endif%}" type="text" name="email" autocomplete="off" placeholder="邮箱" {%if form.email.data%}value="{{form.email.data}}"{%endif%}>
+                {%if form.email.errors%}
+                {%for error in form.email.errors%}
+                <div class="input-error-info">{{error.decode("utf-8")}}</div>
+                {%endfor%}
+                {%endif%}
+            </div>
+            <div class="form-group password-form-group">
+                <input class="block-input block-input-lg {%if form.password.errors%}input-error{%endif%}" type="password" name="password" autocomplete="off" placeholder="密码">
+                {%if form.password.errors%}
+                {%for error in form.password.errors%}
+                <div class="input-error-info">{{error.decode("utf-8")}}</div>
+                {%endfor%}
+                {%endif%}
+                <div class="security-level security-level-lg">
+                    <span class="percent"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <button class="block-btn block-btn-lg" type="submit">注册</button>
+            </div>
+            </form>
+        </div>
+        </div>
+    </div>
+    {%include "_footer.html"%}
+</div>
+
+{%endblock content%}
+
+{%block scripts%}
+
+<script src="{{url_for("static", filename="dist/js/register.min.js")}}"></script>
+
+{{super()}}
+{%endblock scripts%}
+

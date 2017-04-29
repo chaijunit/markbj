@@ -1,0 +1,39 @@
+    <div class="container">
+        <div class="user-head clearfix">
+            <div class="user-cover-lg">
+                {%if user.cover%}
+                    <img class="cover" src='{{url_for("static", filename=user.origin_cover())}}' alt>
+                {%endif%}
+                {%if current_user.is_authenticated and current_user.id==user.id%}
+                <a class="setting-cover" href="{{url_for("setting.basic")}}">设置封面</a>
+                {%endif%}
+            </div>
+            <div class="user-basic-info">
+                <div class="user-avatar-wraper">
+                <a class="user-avatar" href="{{url_for("user.index", id=user.id)}}">
+                    <img class="avatar" src="{{url_for("static", filename=user.origin_avatar())}}" alt="{{user.username}}">
+                </a>
+                {%if current_user.is_authenticated and current_user.id==user.id%}
+                <a class="setting-avatar" href="{{url_for("setting.basic")}}">设置</a>
+                {%endif%}
+                </div>
+                <div class="profile-name">
+                    <h1>{{user.username}}</h1>
+                </div>
+            </div>
+            <div class="user-navbar">
+                <div class="navbar-wraper">
+                    <div class="main-left">
+                    </div>
+                    <div class="main-center">
+                        <ul class="tabs clearfix">
+                            <li class="tab {%if request.endpoint=='user.index'%}active{%endif%}">
+                            <a href="{{url_for("user.index", id= user.id)}}" class="link">文章<span class="value">{{user.count_article()}}</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ 

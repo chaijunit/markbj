@@ -1,0 +1,71 @@
+{%extends "base.html"%}
+{% import "_pagination.html" as page_macros %}
+{%block title%}
+搜索 - {%if request.args.get("keyword")%}{{request.args.get("keyword")}}{%endif%}文章 - 马克笔记
+{%endblock title%}
+
+{%block metas%}
+{{super()}}
+<meta name="description" content="马克笔记是一个整理知识、分享知识，帮助你搜索知识的网站">
+{%endblock metas%}
+
+{%block styles%}
+
+<link rel="stylesheet" href="{{url_for("static", filename="dist/css/search.min.css")}}">
+
+{{super()}}
+{%endblock styles%}
+{%block content%}
+
+<div class="main-dropdown">
+    <div class="search-head clearfix">
+        <div class="container">
+            <div class="b-main">
+                <form class="search-form">
+                    <input type="text" name="keyword" {%if request.args.get("keyword")%}value="{{request.args.get("keyword")}}"{%endif%} class="search-input form-control" />
+                    <input type="submit"  class="search-submit btn btn-default" value="搜索" />
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="b-main">
+            <div class="search-result">
+                <ul class="result-items">
+                    {%for article in articles.items%}
+                        <li class="result-item">
+                            <div class="title">
+                                <a href="{{url_for("article.reader", pathname=article.pathname)}}" class="name">{{article.title}}</a>
+                            </div>
+                            <p class="info">
+                                {{article.get_abstract()}}
+                            </p>
+                            <div class="meta">
+                                <span>作者：</span>
+                                <a href="{{url_for("user.index", id = article.user.id)}}">{{article.user.username}}</a>
+                                <span>&nbsp {{article.updatetime|friendly_time}} &nbsp</span>
+                            </div>
+                        </li>
+                    {%endfor%}
+                </ul>
+
+                 <div class="page">
+                {{page_macros.pagination_widget(articles, "home.search", { "keyword": request.args.get("keyword")})}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    {%include "_footer.html"%}
+</div>
+{%endblock content%}
+
+{%block scripts%}
+
+<script src="{{url_for("static", filename="dist/js/common.min.js")}}"></script>
+
+{{super()}}
+{%endblock scripts%}
+
+

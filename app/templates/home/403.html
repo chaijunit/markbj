@@ -1,0 +1,35 @@
+{%extends "base.html"%}
+{%block title%}
+403拒绝访问 马克笔记
+{%endblock title%}
+
+{%block metas%}
+{{super()}}
+<meta name="description" content="马克笔记是一个整理知识、分享知识，帮助你搜索知识的网站">
+{%endblock metas%}
+{%block styles%}
+
+<link rel="stylesheet" href="{{url_for("static", filename="dist/css/error.min.css")}}">
+
+{{super()}}
+
+{%endblock styles%}
+
+{%block content%}
+<div class="main-dropdown">
+    <div class="container">
+        <div class="error-wraper">
+            <h1 class="error-title"><span class="font-error">403</span> 错误</h1>
+            <p class="error-info">禁止访问该网页</p>
+        </div>
+    </div>
+    {%include "_footer.html"%}
+</div>
+{%endblock content%}
+
+{%block scripts%}
+
+{{super()}}
+
+{%endblock scripts%}
+

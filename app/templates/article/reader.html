@@ -1,0 +1,66 @@
+{%extends "base.html"%}
+{%block title%}
+{{article.title}} - 马克笔记
+{%endblock title%}
+
+{%block metas%}
+{{super()}}
+<meta name="description" content="{{article.get_abstract()}}">
+{%endblock metas%}
+{%block styles%}
+
+<link rel="stylesheet" href="{{url_for("static", filename="dist/css/reader_article.min.css")}}">
+
+{{super()}}
+{%endblock styles%}
+
+{%block content%}
+
+<div class="main-dropdown">
+    <div class="container">
+        <div class="b-main">
+            <div class="inner-content">
+                <div class="article-header">
+                    <div class="article-author">
+                        <a class="author-info" href="{{url_for("user.index", id = article.user.id)}}">
+                            <img class="author-avatar" src="{{url_for("static", filename=article.user._20px_avatar())}}" alt="{{article.user.username}}">
+                            <span class="author-name">{{article.user.username}}</span>
+                        </a>
+                        <span class="date">{{article.timestamp|friendly_time}}</span>
+                    </div>
+                    <h1 class="html-content-title">{{article.title}}</h1>
+                    <div class="article-meta">
+                        {%if article.topics%}
+                        <div class="tag-group ">
+                            <label class="tag-label">标签：</label>
+                            {%for topic in article.topics%}
+                            <a href="{{url_for("home.topic", topic=topic.topic.name, type="article")}}" class="topic-group-item">{{topic.topic.name}}</a>
+                            {%endfor%}
+                        </div>
+                        {%endif%}
+                    </div>
+                </div>
+
+                 <div class="html-content">
+                    {{article.html|safe}}
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    {%include "_footer.html"%}
+
+</div>
+
+
+{%endblock content%}
+
+{%block scripts%}
+<script src="{{url_for("static", filename="dist/js/common.min.js")}}"></script>
+
+{{super()}}
+
+{%endblock scripts%}
+
+

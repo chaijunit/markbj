@@ -1,0 +1,13 @@
+{%for topic in topics%}
+<li class="topic-group-item">
+    <div class="info-head">
+        <a href="{{url_for("home.topic", topic=topic.name)}}" class="name">{{topic.name}}</a>  
+    </div>
+    <div class="info-metas clearfix">
+        <div class="info-meta">
+            {{topic.count_article()}}篇文章
+        </div>
+    </div>
+ 
+</li>
+{%endfor%} 

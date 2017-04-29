@@ -1,0 +1,90 @@
+{%extends "base.html"%}
+{%import "_pagination.html" as page_macros%}
+{%block title%}
+文章 - 马克笔记
+{%endblock title%}
+
+{%block metas%}
+{{super()}}
+<meta name="description" content="马克笔记是一个整理知识、分享知识，帮助你搜索知识的网站">
+{%endblock metas%}
+{%block styles%}
+
+<link rel="stylesheet" href="{{url_for("static", filename="dist/css/article.min.css")}}">
+
+{{super()}}
+{%endblock styles%}
+
+{%block content%}
+<div class="main-dropdown">
+    <div class="container">
+        <div class="b-main">
+            <div class="topic-section clearfix">
+                <h3 class="title">专题</h3>
+                <ul class="topic-group">
+                    {%for topic in topics%}
+                    <a href="{{url_for("home.topic", type="article", topic=topic.name)}}" class="topic-group-item">{{topic.name}}</a>
+                    {%endfor%}
+
+                    {%if has_more %}
+                    <a class="more" href="{{url_for("home.topic")}}">更多</a>
+                    {%endif%}
+                </ul>
+            </div>
+            <div class="article-section">
+                <ul class="article-group clearfix">
+                    {%for article in articles.items%}
+                    <li class="article-item clearfix">
+
+                            <div class="author">
+                                <a href="{{url_for("user.index", id = article.user.id)}}" class="avatar">
+                                    <img src="{{url_for("static", filename = article.user._20px_avatar())}}" alt="{{article.user.username}}" />
+                                </a>
+                                <a href="{{url_for("user.index", id = article.user.id)}}" class="username">{{article.user.username}}</a>
+                                <span class="date">{{article.updatetime|friendly_time}}</span>
+                            </div>
+                            <a href="{{url_for("article.reader", pathname=article.pathname)}}" class="name">{{article.title}}</a>
+ 
+                        <div class="{%if not article.get_cover() %}full-info{%endif%} info clearfix">
+                        {%if article.get_cover()%}
+                        <a href="{{url_for("article.reader", pathname = article.pathname)}}" class="img">
+                            <img src="{{article.get_cover()}}" alt="{{article.title}}" />
+                        </a>
+                        {%endif%}
+                            <p class="desc">
+                            {{article.get_abstract()}}
+                            </p>
+                        </div>
+ 
+                    </li>
+
+                    {%endfor%}
+ 
+
+                </ul>
+
+                <div class="page">
+                    {{page_macros.pagination_widget(articles, "article.index")}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{%include "_footer.html"%}
+{%endblock content%}
+
+{%block scripts%}
+<script src="{{url_for("static", filename="dist/js/common.min.js")}}"></script>
+
+{{super()}}
+{%endblock scripts%}
+
+
+
+
+
+
+
+

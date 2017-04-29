@@ -1,0 +1,32 @@
+<li class="publish-article publish-item">
+    <div class="publish-info clearfix">
+        {%if current_user.is_authenticated and current_user.id == user.id%}
+        <div class="publish-menu">
+            <a href="javascript:void(0);" class="fa fa-chevron-down dropdown-toggle" data-toggle="dropdown" aria-expanded="false"></a>
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="{{url_for("article.edit", pathname = article.pathname)}}">编辑</a></li>
+                <li><a href="{{url_for("article.setting", pathname = article.pathname)}}">设置</a></li>
+                <li><a class="careful delete-publish" href="javascript:void(0);" onclick="return false;" publish-id="{{article.id}}" source="article">删除</a></li>
+            </ul>
+        </div>
+        {%endif%}
+        <a href="{{url_for("article.reader", pathname = article.pathname)}}" class="name">{{article.title}}</a>
+        <div class="{%if not article.get_cover()%}full-info {%endif%}info">
+
+        {%if article.get_cover()%}
+        <a href="{{url_for("article.reader", pathname = article.pathname)}}" class="img">
+            <img src="{{article.get_cover()}}" alt="{{article.name}}" />
+        </a>
+        {%endif%}
+ 
+            <p class="desc">
+            {{article.get_abstract()}}
+            </p>
+        </div>
+    </div>
+    <div class="meta">
+        <span>{{article.timestamp|friendly_time}}</span>
+    </div>
+
+</li>
+ 

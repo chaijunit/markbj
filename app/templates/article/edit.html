@@ -1,0 +1,122 @@
+{%extends "base.html"%}
+{%block title%}
+正在编辑：{{article.title}} - 文章 - 马克笔记
+{%endblock title%}
+
+{%block styles%}
+
+<link rel="stylesheet" href="{{url_for("static", filename="dist/css/edit.min.css")}}">
+
+<style>
+    body{background: #f9f9f9;}
+</style>
+{{super()}}
+{%endblock styles%}
+
+{%block navbar%}
+{%endblock navbar%}
+
+{%block content%}
+    <div class="doc-container">
+        <div class="toolbar-head">
+            <div id="md-toolbar" class="toolbar-body btn-toolbar clearfix">
+            </div>
+        </div>
+        <textarea id="markdown" name="{{article.title}}" style="display:none;">{%if article.markdown%}{{article.markdown}}{%endif%}</textarea>
+        <div class="edit-body full-body">
+            <div class="wraper">
+                <div class="edit-content">
+                    <div class="editor-status" id="editor-status">
+                        <span>正在编辑：</span>
+                        <span style="color:#444;"></span>
+                    </div>
+                    <div class="editor-area">
+                        <div id="md-editor">
+                        </div>
+                        <div id="md-preview">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<div class="modal md-modal fade" id="import-modal" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="dialog-tab dialog-import">
+                <h3>导入外部数据</h3>
+                <ul class="select-tab nav nav-tabs" style="margin-top: 20px;">
+                    <li class="active">
+                        <a href="[data-tab=url]" data-toggle="tab">链接导入</a>
+                    </li>
+                    <li>
+                        <a href="[data-tab=data]" data-toggle="tab">内容导入</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div data-tab="url" class="tab-pane active" style="margin-top:40px; height: 160px;">
+                        <div class="form-group">
+                            <label>链接地址：</label>
+                            <input name="url" type="text" placeholder="http://...">
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" checked name="only_main" value="only_main">
+                                智能提取正文
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="download_image" value="download_image">
+                                下载图片
+                            </label>
+                        </div>
+ 
+                        <div class="btn-group"><button class="xiamoo-btn ok">确定</button><button class="xiamoo-btn" data-dismiss="modal">取消</button></div>
+                    </div>
+                    <div data-tab="data" class="tab-pane" style="height: 320px;">
+                        <div class="form-group">
+                            <label >HTML内容：</label>
+                            <textarea id="message-text" class="form-control" name="html" id="html"></textarea>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" checked  name="only_main" value="only_main">
+                                智能提取正文
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="download_image" value="download_image">
+                                下载图片
+                            </label>
+                        </div>
+ 
+                        <div class="btn-group"><button class="xiamoo-btn ok">确定</button><button class="xiamoo-btn" data-dismiss="modal">取消</button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="loading" class="loading-backdrop"><i class="fa fa-spinner fa-pulse fa-fw"></i></div>
+
+{%endblock content%}
+
+{%block scripts%}
+<script>
+    window.EDIT = {
+        article: {{article.id}},
+        title: document.getElementById("markdown").getAttribute("name"),
+        backoff: '<a class="btn markbj-btn" href="{{url_for("user.index", id = article.user.id)}}"><img src="{{url_for("static", filename=article.user._50px_avatar())}}"></a>',
+    };
+</script>
+<script src="{{url_for("static", filename="dist/js/edit_article.min.js")}}"></script>
+
+{{super()}}
+{%endblock scripts%}
+

@@ -1,0 +1,90 @@
+{%extends "base.html"%}
+{%block title%}
+设置{{article.title}} - 文章 - 马克笔记
+{%endblock title%}
+{%block styles%}
+<link rel="stylesheet" href="{{url_for("static", filename="dist/css/new_article.min.css")}}">
+
+{{super()}}
+{%endblock styles%}
+
+{%block content%}
+
+<div class="main-dropdown">
+    <div class="container">
+        <div class="new-article-section">
+        <div class="inner-content">
+            <div class="new-article-form">
+                <div class="inner-content">
+                    <form id="new-article" action="{{url_for("article.setting", pathname=article.pathname)}}" method="post">
+                        {{form.hidden_tag()}}
+                    <h1 class="form-title">
+                        修改文章
+                    </h1>
+                    <div class="form-group">
+                        <input class="form-control {%if form.title.errors%}input-error{%endif%}" name="title" type="text" autocomplete="off" placeholder="标题" {%if form.title.data%}value="{{form.title.data}}" {%else%}value="{{article.title}}" {%endif%}>
+                        {%for error in form.title.errors%}
+                        <div class="input-error-info">{{error.decode("utf-8")}}</div>
+                        {%endfor%}
+                        
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">文章标签<span class="gray-white">（可填）输入后按Enter键选择</span></label>
+                        <div class="setting-topic-form">
+                            <input id="article-topic-input" class="form-control" type="text" name="topics" placeholder="文章标签">
+                        </div>
+                        <div id="topics" class="b-tag-group clearfix">
+                            {%for topic in article.topics%}
+                            <div class="inner-tag-group" data-id="{{loop.index0}}">
+                                <input type="hidden" class="csrf" id="topics-{{loop.index0}}-csrf_token" name="topics-{{loop.index0}}-csrf_token" value="{{form.csrf_token.current_token}}">
+                                <input class="topic" type="hidden" id="topics-{{loop.index0}}-topic" name="topics-{{loop.index0}}-topic" value="{{topic.topic.name}}">
+                                <span id="topics-{{loop.index0}}-topic" class="b-tag-group-item setting-tag">
+                                    {{topic.topic.name}}
+                                    <i class="close">×</i>
+                                </span>
+                            </div>
+ 
+                            {%endfor%}
+ 
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <div class="col-sm-6">
+                            <label class="article-access">
+                                <input class="access-radio" type="radio" value="{{form.access.choices[0][0]}}" {%if article.access=="public"%}checked{%endif%} name="access" checked="checked">
+                                <i class="fa fa-columns access-icon"></i>
+                                公开 <span class="gray-white">(任何人都能看到)</span>
+                            </label>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="article-access">
+                                <input class="access-radio" type="radio" value="{{form.access.choices[1][0]}}" {%if article.access=="private"%}checked{%endif%} name="access">
+                                <i class="fa fa-lock access-icon warn"></i>
+                                私人 <span class="gray-white">(仅自己能看到)</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="new-article-btn">
+                        <button class="default-btn" type="submit">新建</button>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    {%include "_footer.html"%}
+
+</div>
+
+{%endblock content%}
+
+{%block scripts%}
+<script src="{{url_for("static", filename="dist/js/new_article.min.js")}}"></script>
+
+{{super()}}
+{%endblock scripts%}
+

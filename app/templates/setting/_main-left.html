@@ -1,0 +1,14 @@
+<div class="list-group aside-menu">
+    <a class="list-group-item {%if request.endpoint=="setting.basic"%}active{%endif%}" href="{{url_for("setting.basic")}}">基础信息
+        <i class="fa fa-chevron-right"></i>
+    </a>
+    <a class="list-group-item {%if request.endpoint=="setting.password"%}active{%endif%}" href="{{url_for("setting.password")}}">修改密码
+        <i class="fa fa-chevron-right"></i>
+    </a>
+    <a class="list-group-item {%if request.endpoint=="setting.profile"%}active{%endif%}" href="{{url_for("setting.profile")}}">个人信息
+        <i class="fa fa-chevron-right"></i>
+    </a>
+ 
+</div>
+{%include "_footer_aside.html"%}
+ 

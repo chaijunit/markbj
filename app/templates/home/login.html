@@ -1,0 +1,87 @@
+{%extends "base.html"%}
+
+{%block title%}
+登录马克笔记
+{%endblock title%}
+
+{%block metas%}
+{{super()}}
+<meta name="description" content="马克笔记是一个整理知识、分享知识，帮助你搜索知识的网站">
+{%endblock metas%}
+
+{%block styles%}
+<link rel="stylesheet" href="{{url_for("static", filename="dist/css/sign.min.css")}}">
+
+<style>
+    html,body{
+        background: #f6f9fb;
+    }
+
+</style>
+{{super()}}
+{%endblock styles%}
+
+{%block content%}
+<div class="main-dropdown">
+    <div class="container">
+        <div class="inner-content">
+            {%for msg in get_flashed_messages()%}
+            {%if loop.first%}
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                {{msg.decode("utf-8")}}
+            </div>
+            {%endif%}
+            {%endfor%}
+            <div class="signin-form">
+                <form action="{{url_for("home.login")}}" method="post">
+                    {{ form.hidden_tag() }}
+                    <div class="form-group">
+                        <h1 class="form-title">登录马克笔记</h1>
+                    </div>
+                    <div class="form-group">
+                        <input class="block-input {%if form.email.errors%}input-error{%endif%}" type="text" name="email" placeholder="邮箱" {%if form.email.data%}value="{{form.email.data}}"{%endif%}>
+                        {%if form.email.errors%}
+                        {%for error in form.email.errors%}
+                        <div class="input-error-info">{{error.decode("utf-8")}}</div>
+                        {%endfor%}
+                        {%endif%}
+                    </div>
+                    <div class="form-group">
+                        <input class="block-input {%if form.password.errors%}input-error{%endif%}" type="password" name="password" placeholder="密码">
+                        {%if form.password.errors%}
+                        {%for error in form.password.errors%}
+                        <div class="input-error-info">{{error.decode("utf-8")}}</div>
+                        {%endfor%}
+                        {%endif%}
+                    </div>
+                    <div class="form-group">
+                        <button class="block-btn" type="submit">登录</button>
+                    </div>
+                    <div class="sign-option clearfix">
+                        <label class="sign-remember">
+                            <input class="checkbox-inline" type="checkbox"  name="remember_me" {%if form.remember_me.data%}checked="checked"{%endif%}>
+                            <span>记住我</span>
+                        </label>
+                        <a class="sign-forgot" href="{{url_for("home.password_forgot")}}">忘记密码?</a>
+                    </div>
+                </form>
+            </div>
+            <div class="footer-note">
+                <p class="signup-helper">第一次使用马克笔记? <a href="{{url_for("home.register")}}">现在注册》</a></p>
+            </div>
+        </div>
+    </div>
+    {%include "_footer.html"%}
+
+</div>
+{%endblock content%}
+
+{%block scripts%}
+
+<script src="{{url_for("static", filename="dist/js/register.min.js")}}"></script>
+
+{{super()}}
+{%endblock scripts%}
+
+

@@ -1,0 +1,13 @@
+
+<ul class="profile-info">
+    <li class="info-item" style="margin-bottom:10px; font-size:15px;">{%if user.profile.profile%}{{user.profile.profile}}{%else%}（无）{%endif%}</li>
+    <li class="info-item">
+    <span >地区：</span>
+    {%if user.profile.residence%}{{user.profile.residence}}{%else%}（无）{%endif%}
+    </li>
+    <li class="info-item">
+    <span>行业：</span>
+    {%if user.profile.profession%}{{user.profile.profession2str().decode("utf-8")}}{%else%}（无）{%endif%}
+    </li>
+</ul>
+ 

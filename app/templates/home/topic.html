@@ -1,0 +1,67 @@
+{%extends "base.html"%}
+{%import "_pagination.html" as page_macros%}
+{%block title%}
+专题列表 马克笔记
+{%endblock title%}
+
+{%block metas%}
+{{super()}}
+<meta name="description" content="马克笔记是一个整理知识、分享知识，帮助你搜索知识的网站">
+{%endblock metas%}
+{%block styles%}
+
+<link rel="stylesheet" href="{{url_for("static", filename="dist/css/topic_list.min.css")}}">
+
+{{super()}}
+{%endblock styles%}
+
+{%block content%}
+<div class="main-dropdown">
+
+    <div class="container">
+        <div class="b-main">
+            <div class="topic-head">
+                <h2 class="title">专题列表</h2>
+                <div class="search-topic clearfix">
+                    <label class="search-topic-label">搜索专题：</label>
+                    <div class="search-topic-input">
+                        <input id="search-topic" type="text" class="form-control"  />
+                    </div>
+                </div>
+            </div>
+            <div class="search-topic-result">
+                <ul id="topic-group" class="topic-group clearfix">
+                    {%for topic in topics.items%}
+                    <li class="topic-group-item">
+                        <div class="info-head">
+                            <a href="{{url_for("home.topic", topic=topic.name)}}" class="name">{{topic.name}}</a>  
+                        </div>
+                        <div class="info-metas clearfix">
+                            <div class="info-meta">
+                                {{topic.count_article()}}篇文章
+                            </div>
+                        </div>
+                    </li>
+                    {%endfor%}
+                </ul>
+                {{page_macros.pagination_widget(topics, "home.topic", {"data": request.args.get("data")})}}
+            </div>
+        <!-- b-main-->
+        </div>
+    <!-- container -->
+    </div>
+</div>
+
+
+{%include "_footer.html"%}
+{%endblock content%}
+
+{%block scripts%}
+
+<script src="{{url_for("static", filename="dist/js/topic_list.min.js")}}"></script>
+
+{{super()}}
+{%endblock scripts%}
+
+
+

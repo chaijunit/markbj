@@ -1,0 +1,91 @@
+{%extends "base.html"%}
+{% import "_pagination.html" as page_macros %}
+{%block title%}
+{{user.username}}的文章 - 马克笔记
+{%endblock title%}
+{%block styles%}
+
+<link rel="stylesheet" href="{{url_for("static", filename="dist/css/user.min.css")}}">
+
+{{super()}}
+{%endblock styles%}
+
+{%block content %}
+
+<div class="main-dropdown">
+    {% include "user/_user-head.html"%}
+    <div class="userinfo-wrap">
+        <div class="container">
+            <div class="main-left" >
+                {%include "user/_main-left.html"%}
+            </div>
+
+            <div class="main-center">
+                {%if topics.items%}
+                <div class="publish-topic-navbar" id="publish-topic">
+                    <div class="topic-group">
+                        {%for t, count in topics.items%}
+                        <a class="topic-group-item" href="{{url_for("user.index", id=user.id, topic=t.name, tpage=request.args.get("tpage", 1))}}"> {{t.name}} <span class="counter">{{count}}</span></a>
+                        {%endfor%}
+                    </div>
+                    <div class="topic-page">
+                        <ul class="pagination">
+                            {%if topics.has_prev%}
+                            <li class="prev"><span class="page-item" source="article" uid="{{user.id}}" tpage="{{topics.prev_num}}">上一页</span></li>
+                            {%else%}
+                            <li class="prev"><span class="page-item disable">下一页</span></li>
+                            {%endif%}
+                            {%if topics.has_next%}
+                            <li class="next"><span class="page-item" source="article" uid="{{user.id}}" tpage="{{topics.next_num}}">下一页</span></li>
+                            {%else%}
+                            <li class="next"><span class="page-item disable">下一页</span></li>
+                            {%endif%}
+                        </ul>
+                    </div>
+                </div>
+                {%endif%}
+
+
+                <div class="media-group action-group publish-group">
+                    {%for article in articles.items%}
+                        {%include "user/include/_article_item.html"%}
+                    {%endfor%}
+                </div>
+
+                {%if articles.items%}
+                <div class="pagebar">
+                    {{ page_macros.pagination_widget(articles, "user.index", {"id":user.id, "topic":request.args.get("topic"), "tpage":request.args.get("tpage")})}}
+                </div>
+                {%endif%}
+ 
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="delete-modal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">确定要删除吗？</h4>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:" class="btn" data-dismiss="modal">取消</a>
+                <a href="javascript:" class="btn btn-danger ok">删除</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{%endblock content%}
+
+{%block scripts%}
+
+<script src="{{url_for("static", filename="dist/js/user.min.js")}}"></script>
+
+{{super()}}
+{%endblock scripts%}
+
+

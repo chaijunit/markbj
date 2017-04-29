@@ -1,0 +1,90 @@
+{%extends "base.html"%}
+{%block title%}
+个人简介设置 - 马克笔记
+{%endblock title%}
+{%block styles%}
+
+<link rel="stylesheet" href="{{url_for("static", filename="dist/css/setting.min.css")}}">
+
+{{super()}}
+{%endblock styles%}
+
+{%block content%}
+ 
+<div class="main-dropdown">
+    <div class="container">
+        <div class="main-left">
+            {%include "setting/_main-left.html"%}
+        </div>
+        <div class="main-center">
+                <div class="setting-form">
+                    <div class="setting-header">
+                        <h3>个人信息</h3>
+                    </div>
+                    <form class="form-horizontal" method="post" role="form">
+                        {{ form.hidden_tag() }}
+                        <div class="setting-group">
+                            {%for msg in get_flashed_messages()%}
+                            {%if loop.first%}
+                            <div class="alert alert-success alert-dismissible" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                {{msg.decode("utf-8")}}
+                            </div>
+                            {%endif%}
+                            {%endfor%}
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="profile">个人性说明</label>
+                                <div class="col-sm-9">
+                                    <textarea id="" class="form-control {%if form.profile.errors%}input-error{%endif%}" name="profile" cols="5" rows="5" placeholder="个性说明">{%if form.profile.errors%}{{form.profile.data}}{%elif current_user.profile.profile%}{{current_user.profile.profile}}{%endif%}</textarea>
+                                    {%for error in form.profile.errors%}
+                                    <div class="input-error-info">{{error.decode("utf-8")}}</div>
+                                    {%endfor%}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="address">居住地址</label>
+                                <div class="col-sm-9">
+                                    <input class="form-control {%if form.residence.errors%}input-error{%endif%}" type="text" name="residence" placeholder="居住地址" {%if current_user.profile.residence%}value="{{current_user.profile.residence}}"{%endif%}>
+                                    {%for error in form.residence.errors%}
+                                    <div class="input-error-info">{{error.decode("utf-8")}}</div>
+                                    {%endfor%}
+                                    <span class="help-block">您目前的所在城市</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="profession">行业</label>
+                                <div class="col-sm-9">
+                                    <select id="profession" class="form-control" name="profession">
+                                        {%for choice in form.profession.choices%}
+                                        <option {%if current_user.profile.profession == choice[0]%}selected{%elif not current_user.profile.profession%}selected{%endif%} value="{{choice[0]}}">{{choice[1].decode('utf-8')}}</option>
+                                        {%endfor%}
+                                    </select>
+                                    <span class="help-block">您从事的行业，如果是学生可选择”在校生“</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setting-bottom">
+                            <div class="form-group">
+                                <div class="col-sm-offset-3 col-sm-9">
+                                    <button type="submit" class="btn btn-default">保存更改</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+        </div>
+    </div>
+</div>
+
+
+{%endblock content%}
+
+{%block scripts%}
+
+<script src="{{url_for("static", filename="dist/js/common.min.js")}}"></script>
+
+{{super()}}
+{%endblock scripts%}
+  
+
+
