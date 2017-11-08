@@ -1,5 +1,5 @@
 # markbj
-一个开源的知识分享平台 http://www.markbj.com
+一个开放的知识社区 http://www.beibq.cn
 
 # 安装说明
 
