@@ -1,6 +1,7 @@
 # markbj
 一个开放的知识社区 http://www.beibq.cn
 
+
 # 安装说明
 
 ## 安装依赖包
